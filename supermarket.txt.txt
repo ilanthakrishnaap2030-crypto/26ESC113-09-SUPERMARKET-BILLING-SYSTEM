@@ -1,0 +1,129 @@
+#include <stdio.h>
+
+int main()
+{
+    int sno[50], stock[50];
+    char name[50][30];
+    float price[50];
+
+    int count = 0;
+    int choice, i, n, qty;
+    float amount;
+
+    do
+    {
+        printf("\n--- SUPERMARKET BILLING SYSTEM ---\n");
+        printf("1. Add Product\n");
+        printf("2. View All Products\n");
+        printf("3. Bill One Item\n");
+        printf("4. Exit\n");
+
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch(choice)
+        {
+            // 1. Add Product
+            case 1:
+
+                if(count == 50)
+                {
+                    printf("Product limit reached!\n");
+                    break;
+                }
+
+                sno[count] = count + 1;
+
+                printf("Enter product name: ");
+                scanf("%29s", name[count]);
+
+                printf("Enter price: ");
+                scanf("%f", &price[count]);
+
+                printf("Enter stock: ");
+                scanf("%d", &stock[count]);
+
+                if(price[count] < 0 || stock[count] < 0)
+                {
+                    printf("Invalid details!\n");
+                    break;
+                }
+
+                count++;
+
+                printf("Product added successfully!\n");
+                break;
+
+            // 2. View Products
+            case 2:
+
+                if(count == 0)
+                {
+                    printf("No products available!\n");
+                }
+                else
+                {
+                    printf("\nS.No  Name  Price  Stock\n");
+
+                    for(i = 0; i < count; i++)
+                    {
+                        printf("%d  %s  %.2f  %d\n",
+                        sno[i], name[i],
+                        price[i], stock[i]);
+                    }
+                }
+                break;
+
+            // 3. Bill One Item
+            case 3:
+
+                printf("Enter product S.No: ");
+                scanf("%d", &n);
+
+                for(i = 0; i < count; i++)
+                {
+                    if(sno[i] == n)
+                    {
+                        printf("Enter quantity: ");
+                        scanf("%d", &qty);
+
+                        if(qty > 0 && qty <= stock[i])
+                        {
+                            amount = price[i] * qty;
+
+                            printf("\n--- BILL ---\n");
+                            printf("Product: %s\n", name[i]);
+                            printf("Price: %.2f\n", price[i]);
+                            printf("Quantity: %d\n", qty);
+                            printf("Total: Rs. %.2f\n", amount);
+
+                            stock[i] = stock[i] - qty;
+                        }
+                        else
+                        {
+                            printf("Insufficient stock or invalid quantity!\n");
+                        }
+
+                        break;
+                    }
+                }
+
+                if(i == count)
+                {
+                    printf("Product not found!\n");
+                }
+                break;
+
+            // 4. Exit
+            case 4:
+                printf("Thank you!\n");
+                break;
+
+            default:
+                printf("Invalid choice!\n");
+        }
+
+    } while(choice != 4);
+
+    return 0;
+}
